@@ -1,18 +1,45 @@
-import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule, UrlSerializer } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { ClientModule } from './client/client.module';
+import { AdminModule } from './admin/admin.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatTableModule } from '@angular/material/table';
+import { MdbModule } from 'mdb-angular-ui-kit';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    //CommonModule,
+    ClientModule,
+    AdminModule,
+    //FormsModule,
+    AppRoutingModule,
+    RouterModule.forRoot([]),
+    NgbModule,
+    MatTableModule,
+    MdbModule,
+    BrowserAnimationsModule
+    //HttpClientModule,
   ],
-  providers: [],
+  exports: [
+    CommonModule,
+  ],
+  providers: [
+    RouterModule,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule { }

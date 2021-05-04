@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API: 'http://3.128.156.51:3000/',
+  NEW_API: 'http://3.128.156.51:3030/',
+
+  PAGINATION_LIMIT: 9
 };
 
 /*

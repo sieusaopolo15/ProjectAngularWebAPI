@@ -28,9 +28,72 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/styles.scss",
+              {
+                "input": "src/client-style.css",
+                "bundleName": "client-style",
+                "inject": false
+              },
+              {
+                "input": "src/client-responsive.css",
+                "bundleName": "client-responsive",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/admin-style.css",
+                "bundleName": "admin-style",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/admin-main.css",
+                "bundleName": "admin-main",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/notika-custom-icon.css",
+                "bundleName": "admin-notika-icon",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/responsive.css",
+                "bundleName": "admin-responsive",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/normalize.css",
+                "bundleName": "admin-normalize",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/waves.min.css",
+                "bundleName": "admin-waves",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/button.css",
+                "bundleName": "admin-wave-button",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/jquery-jvectormap-2.0.3.css",
+                "bundleName": "admin-jvectormap",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/bootstrap.min.css",
+                "bundleName": "admin-jvectormap",
+                "inject": false
+              },
+              {
+                "input": "src/assets/admin/css/meanmenu.css",
+                "bundleName": "admin-jvectormap",
+                "inject": false
+              }
+
             ],
-            "scripts": []
+            "scripts": [ "src/main.ts" ]
+            
           },
           "configurations": {
             "production": {
@@ -91,6 +154,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []

@@ -1,0 +1,111 @@
+<div class="modal animated fadeInDown" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm Sản Phẩm</h4>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-element-area">
+                    <div class="container">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-element-list">
+                                <form [formGroup]="addProductForm">
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="addProductForm.invalid" type="button" class="btn btn-default" (click)="submit(addProductForm.value)">Thêm</button>
+                <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcomb area Start-->
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-icon">
+                                    <i class="notika-icon notika-windows"></i>
+                                </div>
+                                <div class="breadcomb-ctn">
+                                    <h2>Dữ liệu bảng</h2>
+                                    <p>Quản lý <span class="bread-ntd">Sản phẩm</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcomb-report">
+                                <button (click)="openModal()" style="margin-right:20px" data-toggle="tooltip" data-placement="left" title="Thêm Sản Phẩm" class="btn">Thêm sản phẩm</button>
+                                <button style="margin-right:20px" data-toggle="tooltip" data-placement="left" title="Chỉnh sửa thông tin" class="btn">Sửa sản phẩm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcomb area End-->
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <!-- <div class="basic-tb-hd">
+                        
+                    </div> -->
+                    <div style="overflow-x: auto;" class="bsc-tbl-hvr">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Nội dung</th>
+                                    <th>Giá</th>
+                                    <th>Đơn vị tính</th>
+                                    <th>Số lượng tồn kho</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="productData">
+                                <tr *ngFor="let product of productData | paginate: { id: 'listing_pagination', itemsPerPage: itemsPerPage, currentPage: page , totalItems: totalRecords }">
+                                    <td><input type="checkbox" /></td>
+                                    <td>{{ product.productId }}</td>
+                                    <td><img height="400" width="400" src="https://drive.google.com/uc?export=view&id={{ product.images }}" /></td>
+                                    <td style="white-space: nowrap;">{{ product.productName }}</td>
+                                    <td>{{ product.descriptions }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.unit }}</td>
+                                    <td>{{ product.wareHouses[product.wareHouses.length - 1].quantity }}</td>
+                                    <td>{{ product.status == true ? 'Còn bán' : 'Hết bán' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <pagination-controls 
+                        (pageChange)="page = $event" 
+                        id="listing_pagination"
+                        maxSize="10"
+                        directionLinks="true"
+                        style="float:right; margin-top: 20px; margin-bottom: 20px;"
+                    >
+                    </pagination-controls>
+
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+
