@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminGuard } from "src/services/admin/auth/admin.guard";
 import { AuthGuard } from "src/services/admin/auth/auth.guard";
 import { AdminComponent } from "./admin.component";
 import { AdminMainComponent } from "./modules/admin-main.component";
@@ -19,18 +20,18 @@ const adminRoutes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent,
+        component: LoginComponent
       },
       {
         path: '',
         component: AdminMainComponent,
         children: [
-          { path: '', component: HomeComponent, canActivate: [ AuthGuard ]  },
-          { path: 'tableEmployee', component: TableEmployeeComponent, canActivate: [AuthGuard] },
-          { path: 'tableProduct', component: TableProductComponent, canActivate: [AuthGuard] },
+          { path: '', component: HomeComponent, canActivate: [ AdminGuard ]  },
+          { path: 'tableEmployee', component: TableEmployeeComponent, canActivate: [AdminGuard] },
+          { path: 'tableProduct', component: TableProductComponent, canActivate: [AdminGuard] },
           { path: 'tableOrder', component: TableOrderComponent, canActivate: [AuthGuard] },
-          { path: 'tableCustomer', component: TableCustomerComponent, canActivate: [AuthGuard] },
-          { path: 'Profile', component: ProfileComponent, canActivate: [AuthGuard] },
+          { path: 'tableCustomer', component: TableCustomerComponent, canActivate: [AdminGuard] },
+          { path: 'Profile', component: ProfileComponent, canActivate: [AuthGuard, AdminGuard] },
           { path: 'Storage', component: StorageComponent },
         ]
       }

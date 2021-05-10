@@ -10,7 +10,6 @@ import { AdminComponent } from "./admin.component";
 import { AdminRoutingModule } from "./admin-routing.module";
 import { AdminMainModule } from "./modules/admin-main.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AuthGuard } from "src/services/admin/auth/auth.guard";
 
 @NgModule({
   declarations: [

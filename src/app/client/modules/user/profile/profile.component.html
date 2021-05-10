@@ -56,7 +56,7 @@
                                 <div *ngIf="changePasswordForm.get('confirmation').touched && changePasswordForm.get('confirmation').invalid" class="invalid-feedback">
                                     <div *ngIf="changePasswordForm.get('confirmation').errors.required"> Xác nhận mật khẩu bị bỏ trống</div>
                                     <div *ngIf="changePasswordForm.get('confirmation').errors.minlength"> Tối thiểu 8 kí tự </div>
-                                    <div *ngIf="changePasswordForm.get('confirmation').errors.mustMatch"> mật khẩu mới và xác nhận phải giống nhau</div>
+                                    <div *ngIf="changePasswordForm.get('confirmation').errors.mustMatch"> Mật khẩu mới và xác nhận phải giống nhau</div>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -74,7 +74,7 @@
                             <div class="col-md-6 col-12 mb-20">
                                 <label>Họ tên đầy đủ</label>
                                 <input 
-                                    formControlName="fullname" 
+                                    formControlName="fullName" 
                                     class="mb-0 form-control" 
                                     type="text" 
                                     placeholder="Họ và tên"
@@ -110,8 +110,8 @@
                             <div class="col-md-6 mb-20">
                                 <label>Giới tính</label>
                                 <select formControlName="gender" class="form-select form-control">
-                                    <option value="true" [selected]="currentCustomer.gender">Nam</option>
-                                    <option value="false" [selected]="currentCustomer.gender">Nữ</option>
+                                    <option value="true" [selected]="currentCustomer.gender == true">Nam</option>
+                                    <option value="false" [selected]="currentCustomer.gender != true">Nữ</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-20">

@@ -10,6 +10,7 @@ export class EmployeeDTO{
   gender: boolean;
   birthDay: string;
   roleId: string;
+  isBlocked: boolean;
   role: {};
   checks: [];
   imports: [];

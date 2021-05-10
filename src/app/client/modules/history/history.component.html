@@ -18,7 +18,7 @@
                         <div class="row">
                             <div class="col-12" *ngIf="o.orderStatus && o.orderStatus[o.orderStatus.length - 1].statusId == 2">
                                 <div class="coupon-all" style="margin-bottom: 20px;">
-                                    <button>Huỷ đơn</button>
+                                    <button (click)="deleteOrder(o.orderId)">Huỷ đơn</button>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -52,7 +52,7 @@
                                             <div class="cart-page-total">
                                                 <h2>Tổng tiền</h2>
                                                 <ul>
-                                                    <li>Tổng <span>{{ o.amount }}đ</span></li>
+                                                    <li>Tổng <span>{{ o.amount | currency: 'VND': '': '1.0-1' }}đ</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@
                                             <div class="cart-page-total">
                                                 <h2>Tổng tiền</h2>
                                                 <ul>
-                                                    <li>Tổng <span>{{ status.amount }}đ</span></li>
+                                                    <li>Tổng <span>{{ status.amount | currency: 'VND': '': '1.0-1' }}đ</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -175,7 +175,7 @@
                                             <div class="cart-page-total">
                                                 <h2>Tổng tiền</h2>
                                                 <ul>
-                                                    <li>Tổng <span>{{ status.amount }}đ</span></li>
+                                                    <li>Tổng <span>{{ status.amount | currency: 'VND': '': '1.0-1' }}đ</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@
                                             <div class="cart-page-total">
                                                 <h2>Tổng tiền</h2>
                                                 <ul>
-                                                    <li>Tổng <span>{{ status.amount }}đ</span></li>
+                                                    <li>Tổng <span>{{ status.amount | currency: 'VND': '': '1.0-1' }}đ</span></li>
                                                 </ul>
                                             </div>
                                         </div>

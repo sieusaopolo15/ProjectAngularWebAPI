@@ -10,8 +10,11 @@ export class HeaderComponent implements OnInit {
 
   constructor(private headerService: HeaderService) { }
 
-  currentTab: string = "Charts";
+  currentTab: string;
   fullname: string = "";
+
+  role: string = "";
+  roleEmployee: string = "";
 
   //MOBILE BOOTSTRAP VARIABLES
     mmnTrigger: boolean = false;
@@ -24,7 +27,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.headerService.$userProfile.subscribe(res => {
       this.fullname = sessionStorage.getItem('employee-name');
-    })
+      this.role = sessionStorage.getItem('admin');
+      this.roleEmployee = sessionStorage.getItem('employee');
+      if (this.role) {
+        this.currentTab = 'Charts';
+      }
+      else if(this.roleEmployee) {
+        this.currentTab = 'Tables'
+      }
+    });
   }
 
   changeTab(value: string) {

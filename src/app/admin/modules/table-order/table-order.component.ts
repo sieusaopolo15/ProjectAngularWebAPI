@@ -88,6 +88,20 @@ export class TableOrderComponent implements OnInit {
     }
   }
 
+  deliveredOrder(orderId) {
+    if (confirm("Bạn có muốn xác nhận với mã đơn hàng: " + orderId + " không ?")) {
+      this.httpService.post(this.url, "OrderStatus/DeliveredOrder/" + orderId, orderId).subscribe(
+        data => {
+          this.alertService.Success("Xác nhận đơn hàng thành công");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.message);
+          this.alertService.Error("Có lỗi xảy ra với việc xác nhận đơn hàng với mã" + orderId);
+        }
+      );
+    }
+  }
+
   getClassName(statusId) {
     if (statusId == 1) {
       return 'error-row';

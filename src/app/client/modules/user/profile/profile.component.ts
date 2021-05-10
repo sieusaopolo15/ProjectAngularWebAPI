@@ -44,14 +44,13 @@ export class ProfileComponent implements OnInit {
 
   private subscription: Subscription;
 
-  
-
   ngOnInit(): void {
     this.getCurrentCustomer();
     let date = this.currentCustomer.birthDay;
 
-    this.changeInformationForm = new FormGroup ({
-      fullname: new FormControl(this.currentCustomer.name, [Validators.required]),
+    this.changeInformationForm = new FormGroup({
+      customerId: new FormControl(this.currentCustomer.id),
+      fullName: new FormControl(this.currentCustomer.name, [Validators.required]),
       email: new FormControl(this.currentCustomer.email, [Validators.required, Validators.minLength(8), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
       address: new FormControl(this.currentCustomer.address, [Validators.required, Validators.minLength(10)]),
       phoneNumber: new FormControl(this.currentCustomer.phone, [Validators.required, Validators.minLength(10), Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b')]),
@@ -65,7 +64,6 @@ export class ProfileComponent implements OnInit {
     const customer = JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('customer-email'), 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
     if (customer && customer.profileFlag == "true") {
       this.currentCustomer = customer;
-      console.log(this.currentCustomer);
     }
   }
 
@@ -93,17 +91,20 @@ export class ProfileComponent implements OnInit {
 
   changeInformationSubmit(form) {
     let customer = {
-      customerId: 0,
-      fullName: "",
       email: "",
+      password: "",
+      name: "",
+      id: "",
       address: "",
-      phoneNumber: "",
-      gender: "",
+      phone: "",
       birthDay: "",
+      gender: "",
+      profileFlag: ""
     };
-    this.httpService.put(this.url, "Customers/" + this.currentCustomer.id, this.setInformation(customer, form)).subscribe(
+    this.httpService.post(this.url, "Customers/ChangeInfo/" + this.currentCustomer.id, form).subscribe(
       data => {
         this.alertService.Success("Thay đổi thông tin đăng nhập thành công ! Đang thay đổi thông tin");
+        this.setInformation(customer, form);
         this.subscription = interval(2000).subscribe((val) => {
           this.router.routeReuseStrategy.shouldReuseRoute = function () {
             return false;
@@ -117,14 +118,16 @@ export class ProfileComponent implements OnInit {
   }
 
   private setInformation(customer, form) {
-    customer.customerId = this.currentCustomer.id;
-    customer.fullName = form.fullname;
-    customer.email = form.email;
+    customer.email = this.currentCustomer.email;
+    customer.password = null;
+    customer.name = form.fullName;
+    customer.id = form.customerId;
     customer.address = form.address;
-    customer.phoneNumber = form.phoneNumber;
+    customer.phone = form.phoneNumber;
     customer.gender = form.gender;
     customer.birthDay = form.birthDay;
-    console.log(customer);
+    customer.profileFlag = 'true';
+    sessionStorage.setItem('customer-email', CryptoJS.AES.encrypt(JSON.stringify(customer), 'passwordEncrypt').toString());
     return customer;
   }
 

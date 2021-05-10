@@ -3,6 +3,8 @@ import { HistoryDTO } from '../../../../models/history';
 import * as CryptoJS from 'crypto-js';
 import { HttpService } from '../../../../services/client/http/http.service';
 import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AlertService } from 'src/services/client/alert/alert.service';
 
 @Component({
   selector: 'app-history',
@@ -21,7 +23,7 @@ export class HistoryComponent implements OnInit {
   private url: string = environment.NEW_API;
   
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private alertify: AlertService) { }
 
   ngOnInit(): void {
     this.getCustomerId();
@@ -34,8 +36,7 @@ export class HistoryComponent implements OnInit {
   private getHistory() {
     if (this.customerId != 0) {
       this.httpService.getUrl(this.url, "Orders/GetOrdersByCustomerId/" + this.customerId).subscribe(data => {
-        this.orders = data;
-        console.log(this.orders);
+        this.orders = data; 
         this.orders.forEach(o => {
           o.orderStatus.forEach((status: { date: string, orderId: number, status: {}, statusId: number }) => {
             if (status.statusId == 2) {
@@ -53,10 +54,23 @@ export class HistoryComponent implements OnInit {
             }
           });
         });
-        console.log(this.orders);
       });
     }
 
+  }
+
+  deleteOrder(orderId) {
+    if (confirm("Bạn có muốn huỷ đơn này ?")) {
+      this.httpService.post(this.url, "OrderStatus/DeleteOrderByCustomer/" + orderId, orderId).subscribe(
+        data => {
+          this.alertify.Success("Đã huỷ đơn thành công ! Xin hãy tải lại trang")
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
+      );
+    }
+    
   }
 
 }

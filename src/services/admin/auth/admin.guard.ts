@@ -6,7 +6,7 @@ import * as crypto from 'crypto-js';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private router: Router){}
 
   canActivate(
@@ -17,17 +17,13 @@ export class AuthGuard implements CanActivate {
     
     if (refreshToken && value) {
       const employeeData = JSON.parse(crypto.AES.decrypt(value, 'secretkey').toString(crypto.enc.Utf8));
-      
-      if (employeeData.roleId != 'ADMIN') {
-        sessionStorage.setItem('employee', 'true');
-        sessionStorage.removeItem('admin');
-        return true;
-      }
-      else if (employeeData.roleId == 'ADMIN') {
+      if (employeeData.roleId == 'ADMIN') {
         sessionStorage.setItem('admin', 'true');
         sessionStorage.removeItem('employee');
         return true;
       }
+      this.router.navigate(['admin/tableOrder']);
+      return false;
     }
     this.router.navigate(['admin/login']);
     return false;

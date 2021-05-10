@@ -160,7 +160,7 @@
                             <h2>{{ product_detail.productName }}</h2>
                             <p class="product-details-ref">Mã Loại: {{ product_detail.categoryId }}</p>
                             <p class="product-details-ref">Đơn vị tính: {{ product_detail.unit }}</p>                                
-                            <p class="product-details-ref">Số lượng tồn kho: {{ product_detail.wareHouses[product_detail.wareHouses.length - 1].quantity  }} {{ product_detail.unit }}</p>                                
+                            <p class="product-details-ref">Số lượng còn lại: {{ product_detail.wareHouses[product_detail.wareHouses.length - 1].quantity  }} {{ product_detail.unit }}</p>                                
                             <div class="price-box pt-20">
                                 <span class="new-price new-price-2">{{ product_detail.price | currency: 'VND': '': '1.0-1' }}</span>
                             </div>

@@ -35,7 +35,7 @@
                         >
                         <div *ngIf="loginForm.get('password').touched && loginForm.get('password').invalid" class="invalid-feedback">
                            <div *ngIf="loginForm.get('password').errors.required"> Mật khẩu bị bỏ trống </div>
-                           <div *ngIf="loginForm.get('password').errors.minlength"> Mật khẩu tối thiểu là 10 kí tự </div>
+                           <div *ngIf="loginForm.get('password').errors.minlength"> Mật khẩu tối thiểu là 8  kí tự </div>
                         </div>
                      </div>
                      <div class="col-md-8">

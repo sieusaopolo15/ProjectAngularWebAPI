@@ -5,7 +5,7 @@
                 <h4 class="modal-title" *ngIf="orderDetails">Mã Đơn hàng: {{ currentId }} | Tổng tiền: {{ orderDetails.amount | currency: 'VND': '': '1.0-1' }}</h4>
                 <button type="button" class="close" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body" *ngIf="orderDetails">
+            <div class="modal-body" style="overflow-y: auto; max-height: 400px;" *ngIf="orderDetails">
                 <div style="overflow-x: auto;" class="bsc-tbl-hvr">
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -22,7 +22,7 @@
                         <tbody *ngIf="orders">
                             <tr *ngFor="let detail of orderDetails.orderDetails">
                                 <td>{{ detail.product.productId }}</td>
-                                <td>{{ detail.product.productId }}</td>
+                                <td><img height="225" width="225" src="https://drive.google.com/uc?export=view&id={{ detail.product.images }}" /></td>
                                 <td>{{ detail.product.productName }}</td>
                                 <td>{{ detail.product.unit }}</td>
                                 <td>{{ detail.product.price | currency: 'VND': '': '1.0-1' }}</td>
@@ -110,7 +110,10 @@
                                         <button [disabled]="order.orderStatus[order.orderStatus.length - 1].statusId != 2" (click)="cancleOrder(order.orderId)" class="btn btn-danger">Huỷ đơn</button>
                                     </td>
                                     <td>
-                                        <button [disabled]="order.orderStatus[order.orderStatus.length - 1].statusId != 2" (click)="confirmOrder(order.orderId)" class="btn btn-success">Xác nhận đơn</button>
+                                        <button [disabled]="order.orderStatus[order.orderStatus.length - 1].statusId != 2 || order.orderStatus[order.orderStatus.length - 1].statusId != 4" (click)="confirmOrder(order.orderId)" class="btn btn-success">Xác nhận đơn</button>
+                                    </td>
+                                    <td>
+                                        <button [disabled]="order.orderStatus[order.orderStatus.length - 1].statusId != 3" (click)="deliveredOrder(order.orderId)" class="btn btn-success">Đã giao</button>
                                     </td>
                                 </tr>
                             </tbody>

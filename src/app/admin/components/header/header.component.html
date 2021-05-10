@@ -35,7 +35,7 @@
             </a>
             <nav  class="mean-nav">
                 <ul class="mobile-menu-nav" [ngStyle]="{ 'display': ulDisplay == false ? 'none' : 'block' }">
-                    <li><a (click)="expand('Chart')">Thống kê</a>
+                    <li *ngIf="role"><a (click)="expand('Chart')">Thống kê</a>
                         <ul class="collapse dropdown-header-top" [ngStyle]="{ 'display': componentDisplay == 'Chart' ? 'block' : 'none' }">
                             <li><a href="admin/">Thống kê doanh thu sản phẩm</a></li>
                         </ul>
@@ -44,11 +44,10 @@
                     </li>
                     <li><a (click)="expand('Tables')">Dữ liệu dạng bảng</a>
                         <ul class="collapse dropdown-header-top" [ngStyle]="{ 'display': componentDisplay == 'Tables' ? 'block' : 'none' }">
-                            <li><a href="admin/tableEmployee">Nhân viên</a></li>
-                            <li><a href="admin/tableCustomer">Khách hàng</a></li>
-                            <li><a href="admin/tableProduct">Sản phẩm</a></li>
-                            <li><a href="admin/tableOrder">Đơn hàng</a></li>
-                            <li><a href="admin/Storage">Kho</a></li>
+                            <li *ngIf="role"><a href="admin/tableEmployee">Nhân viên</a></li>
+                            <li *ngIf="role"><a href="admin/tableCustomer">Khách hàng</a></li>
+                            <li *ngIf="role"><a href="admin/tableProduct">Sản phẩm</a></li>
+                            <li *ngIf="roleEmployee || role"><a href="admin/tableOrder">Đơn hàng</a></li>
                         </ul>
                         <a (click)="expand('Tables')" *ngIf="componentDisplay != 'Tables' " class="mean-expand" style="font-size: 18px">+</a>
                         <a (click)="expand('')" *ngIf="componentDisplay == 'Tables' " class="mean-expand mean-clicked" style="font-size: 18px">-</a>
@@ -64,22 +63,21 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                    <li [class.active]="currentTab == 'Charts'"><a (click)="changeTab('Charts')" style="cursor: pointer;"><i class="notika-icon notika-bar-chart"></i>Thống kê</a></li>
+                    <li *ngIf="role" [class.active]="currentTab == 'Charts'"><a (click)="changeTab('Charts')" style="cursor: pointer;"><i class="notika-icon notika-bar-chart"></i>Thống kê</a></li>
                     <li [class.active]="currentTab == 'Tables'"><a (click)="changeTab('Tables')" style="cursor: pointer;"><i class="notika-icon notika-windows"></i> Dữ liệu dạng bảng</a></li>
                 </ul>
                 <div class="tab-content custom-menu-content">
-                    <div [class.active]="currentTab == 'Charts'" class="tab-pane fade in notika-tab-menu-bg animated flipInX" id="Charts">
+                    <div *ngIf="role" [class.active]="currentTab == 'Charts'" class="tab-pane fade in notika-tab-menu-bg animated flipInX" id="Charts">
                         <ul class="notika-main-menu-dropdown">
                             <li><a href="admin/">Thống kê sản phẩm</a></li>
                         </ul>
                     </div>
                     <div [class.active]="currentTab == 'Tables'" class="tab-pane fade in notika-tab-menu-bg animated flipInX" id="Tables">
                         <ul class="notika-main-menu-dropdown">
-                            <li><a href="admin/tableEmployee">Nhân viên</a></li>
-                            <li><a href="admin/tableCustomer">Khách hàng</a></li>
-                            <li><a href="admin/tableProduct">Sản phẩm</a></li>
-                            <li><a href="admin/tableOrder">Đơn hàng</a></li>
-                            <li><a href="admin/Storage">Kho</a></li>
+                            <li *ngIf="role"><a href="admin/tableEmployee">Nhân viên</a></li>
+                            <li *ngIf="role"><a href="admin/tableCustomer">Khách hàng</a></li>
+                            <li *ngIf="role"><a href="admin/tableProduct">Sản phẩm</a></li>
+                            <li *ngIf="role || roleEmployee"><a href="admin/tableOrder">Đơn hàng</a></li>
                         </ul>
                     </div>
                 </div>

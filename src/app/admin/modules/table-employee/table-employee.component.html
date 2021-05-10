@@ -216,7 +216,7 @@
                                                 <div class="nk-int-st">
                                                     <select 
                                                         NgModel="hr" 
-                                                        class="form-select form-" 
+                                                        class="form-select form-control" 
                                                         formControlName="roles" 
                                                         id="roles"
                                                     >
@@ -234,7 +234,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button [disabled]="addEmployeeForm.invalid" type="button" class="btn btn-default" (click)="submit(addEmployeeForm.value)">Thêm</button>
+                <button [disabled]="addEmployeeForm.invalid" type="button" class="btn btn-default" (click)="addEmployee(addEmployeeForm.value)">Thêm</button>
                 <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
             </div>
         </div>
@@ -487,7 +487,7 @@
                                         <button (click)="openModal2(employee)" type="button" class="btn btn-primary">Sửa thông tin</button>
                                     </td>
                                     <td>
-                                        <button (click)="deleteEmployee(employee.employeeId)" type="button" class="btn btn-danger">KHOÁ TÀI KHOẢN</button>
+                                        <button (click)="employeeBlockTrigger(employee)" type="button" class="btn btn-danger">{{ employee.isBlocked == false ? 'KHOÁ TÀI KHOẢN' : 'MỞ TÀI KHOẢN' }}</button>
                                     </td>
                                 </tr>
                             </tbody>

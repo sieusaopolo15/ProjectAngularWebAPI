@@ -47,7 +47,7 @@ export class TableEmployeeComponent implements OnInit {
       address: new FormControl('', [Validators.required, Validators.minLength(12)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmation: new FormControl('', [Validators.required]),
-      roles: ['']
+      roles: new FormControl('')
     },
     {
       validator: MustMatch('confirmation', 'password')
@@ -129,13 +129,6 @@ export class TableEmployeeComponent implements OnInit {
     this.employee = null;
   }
 
-  submit(value): void {
-    if (confirm("Bạn đã chắc chắn với những thông tin này ?")) {
-      console.log(value);
-    }
-    //this.httpService.post(this.url, "Employees", value);
-  }
-
   submitAdjust(value): void{
     console.log(value);
     if (confirm("Bạn có đồng ý với những thay đổi cho nhân viên này ?")) {
@@ -148,8 +141,59 @@ export class TableEmployeeComponent implements OnInit {
       );
     }
   }
-
-  deleteEmployee(employeeId) {
-    
+  
+  employeeBlockTrigger(employee) {
+    if (confirm("Bạn có chắc chắn về quyết định của mình ?")) {
+      if (!employee.isBlocked) {
+        console.log("blocked");
+        this.httpService.post(this.url, "Employees/Block", employee.employeeId).subscribe(
+          data => {
+            this.alertService.Success("Chặn nhân viên với mã là" + employee.employeeId + " thành công !");
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error.message);
+            this.alertService.Error("Đã xảy ra lỗi với chức năng chặn");
+          }
+        );
+      }
+      else {
+        this.httpService.post(this.url, "Employees/UnBlock", employee.employeeId).subscribe(
+          data => {
+            this.alertService.Success("Gỡ nhân viên với mã: " + employee.employeeId + " thành công !");
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error.message);
+            this.alertService.Error("Đã xảy ra lỗi với chức năng gỡ chặn");
+          }
+        );
+      }
+      
+    }
+  }
+  
+  addEmployee(form){
+	if(confirm("Đồng ý thêm nhân viên với các thông tin này ?")){
+		let employee = {
+			fullName: form.firstname + " " + form.lastname,
+			email: form.email,
+			address: form.address,
+			phoneNumber: form.phoneNumber,
+			passWord: form.confirmation,
+			gender: form.gender,
+			birthDay: form.birthDay,
+			roleId: form.roles
+		}
+		console.log(employee);
+		this.httpService.post(this.url, "Employees/Register", employee).subscribe(
+			data => {
+				this.alertService.Success("Thêm nhân viên thành công");
+				this.display = 'none';
+			},
+			(error: HttpErrorResponse) => {
+				this.alertService.Error("Đã xảy ra lỗi trong quá trình thêm nhân viên");
+				console.log(error.message);
+			}
+		);
+	}
   }
 }
