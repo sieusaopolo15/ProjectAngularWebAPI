@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MustMatch } from 'src/app/client/modules/login/MustMatch';
@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { HttpService } from '../../../../services/admin/http/http.service';
 import { EmployeeDTO } from '../../../../models/employee';
 import { RoleDTO } from 'src/models/role';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/services/client/alert/alert.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -21,7 +21,8 @@ export class TableEmployeeComponent implements OnInit {
     private httpService: HttpService,
     private fb: FormBuilder,
     private datepipe: DatePipe,
-    private alertService: AlertService
+    private alertService: AlertService,
+    @Inject(DOCUMENT) private _document: Document
   ) {
 
   }
@@ -80,6 +81,10 @@ export class TableEmployeeComponent implements OnInit {
     this.getRoles();
   }
 
+  private reloadPage() {
+    this._document.defaultView.location.reload();
+  }
+
   private getEmployee() {
     this.httpService.get(this.url, "Employees").subscribe(data => {
       this.employeeData = data;
@@ -113,14 +118,14 @@ export class TableEmployeeComponent implements OnInit {
       {
         employeeId: new FormControl(this.employee.employeeId),
         fullname: new FormControl(this.employee.fullName, [Validators.required, Validators.minLength(12)]),
+        email: new FormControl(this.employee.email, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+        address: new FormControl(this.employee.address, [Validators.required, Validators.minLength(12)]),
+        phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b')]),
         gender: new FormControl(this.employee.gender, [Validators.required]),
         birthDay: new FormControl(this.datepipe.transform(this.employee.birthDay, 'yyyy-MM-dd'), [Validators.required]),
-        email: new FormControl(this.employee.email, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-        phoneNumber: new FormControl(this.employee.phoneNumber, [Validators.required, Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b')]),
-        address: new FormControl(this.employee.address, [Validators.required, Validators.minLength(12)]),
-        roles: new FormControl(this.employee.roleId)
+        roleId: new FormControl(this.employee.roleId)
       },
-    );;
+    );
 
     this.display2 = 'block';
   }
@@ -132,11 +137,13 @@ export class TableEmployeeComponent implements OnInit {
   submitAdjust(value): void{
     console.log(value);
     if (confirm("Bạn có đồng ý với những thay đổi cho nhân viên này ?")) {
-      this.httpService.post(this.url, "Employees/" + this.employee.employeeId, value).subscribe(data => {
+      this.httpService.post(this.url, "Employees/ChangeInfo/" + this.employee.employeeId, value).subscribe(data => {
         this.alertService.Success("Đã thay đổi thành công ! vui lòng tải lại trang ");
+        this.reloadPage();
       },
         (error: HttpErrorResponse) => {
           console.log(error.message);
+          console.log(error.headers);
         }
       );
     }
@@ -149,6 +156,7 @@ export class TableEmployeeComponent implements OnInit {
         this.httpService.post(this.url, "Employees/Block", employee.employeeId).subscribe(
           data => {
             this.alertService.Success("Chặn nhân viên với mã là" + employee.employeeId + " thành công !");
+            this.reloadPage();
           },
           (error: HttpErrorResponse) => {
             console.log(error.message);

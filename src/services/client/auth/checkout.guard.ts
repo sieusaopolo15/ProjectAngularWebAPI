@@ -14,12 +14,9 @@ export class CheckoutGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const email = JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('customer-email'), 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
-    if (email) {
-      const cart = JSON.parse(sessionStorage.getItem(email.email));
-      if (cart) {
-        return true;
-      }
+    const cart = JSON.parse(sessionStorage.getItem('cart'));
+    if (cart && cart != undefined && cart != null) {
+      return true;
     }
     this.router.navigate(['/Cart']);
     return false;

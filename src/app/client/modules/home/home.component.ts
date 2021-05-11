@@ -100,10 +100,30 @@ export class HomeComponent implements OnInit {
 
   AddToCart(name, productId, amount = 1, price = 0) {
     const value = sessionStorage.getItem('customer-email');
-    
-    if (value && value != "undefined") {
-      let decrypt = JSON.parse(CryptoJS.AES.decrypt(value, 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
-      if (this.cart.filter(x => x.productId == productId).length == 0) {
+    const cart = JSON.parse(sessionStorage.getItem('cart'));
+    if (value && value != null) {
+      if (cart && cart != undefined && cart != null) {
+        this.cart = JSON.parse(sessionStorage.getItem('cart'));
+        if (this.cart.find(x => x.productId === productId)) {
+          let a = this.cart.find(x => x.productId === productId);
+          let index = this.cart.indexOf(a);
+  
+          this.cart[index].amount += amount;
+          this.cart[index].total = this.cart[index].amount * price;
+          sessionStorage.setItem('cart', JSON.stringify(this.cart));
+        }
+        else {
+          let c = new Cart();
+          c.productName = name;
+          c.productId = productId;
+          c.amount = +amount;
+          c.price = price;
+          c.total = c.amount * c.price;
+          this.cart.push(c);
+          sessionStorage.setItem('cart', JSON.stringify(this.cart));
+        }
+      }
+      else {
         let c = new Cart();
         c.productName = name;
         c.productId = productId;
@@ -111,19 +131,14 @@ export class HomeComponent implements OnInit {
         c.price = price;
         c.total = c.amount * c.price;
         this.cart.push(c);
-        sessionStorage.setItem(decrypt.email, JSON.stringify(this.cart));
-      }
-      else {
-        let a = this.cart.find(x => x.productId == productId);
-        a.amount += +amount;
-        a.total = a.price * a.amount;
-        sessionStorage.setItem(decrypt.email, JSON.stringify(this.cart));
+        sessionStorage.setItem('cart', JSON.stringify(this.cart));
       }
       this.alertify.Success("Thêm vào giỏ thành công");
     }
     else {
-      this.alertify.Error("Bạn phải đăng nhập mới có thể thêm vào giỏ hang");
+      this.alertify.Error("Bạn phải đăng nhập mới được thêm vào giỏ hàng");
     }
+    
   }
 
   sort(value) {

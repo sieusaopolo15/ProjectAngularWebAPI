@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   private getCart() {
-    this.cart = JSON.parse(sessionStorage.getItem(this.email.email));
+    this.cart = JSON.parse(sessionStorage.getItem('cart'));
     if (this.cart) {
       for (let i = 0; i < this.cart.length; i++){
         this.total += this.cart[i].total;
@@ -77,7 +77,6 @@ export class CheckoutComponent implements OnInit {
         }, 3000); //3s
       },
       (error: HttpErrorResponse) => {
-        console.log(error);
         console.log(error.message);
         this.alertify.Error('Thanh toán đã xảy ra lỗi');
         

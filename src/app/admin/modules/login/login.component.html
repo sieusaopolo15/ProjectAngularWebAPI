@@ -10,7 +10,7 @@
                      formControlName="email" 
                      type="text" 
                      class="form-control" 
-                     placeholder="Username"
+                     placeholder="Địa chỉ email"
                      [ngClass]="{'is-invalid': loginForm.get('email').touched && loginForm.get('email').invalid }"
                   >
                   <div *ngIf="loginForm.get('email').touched && loginForm.get('email').invalid" class="invalid-feedback">
@@ -26,7 +26,7 @@
                      formControlName="passWord" 
                      type="password" 
                      class="form-control" 
-                     placeholder="Password"
+                     placeholder="Mật khẩu"
                      [ngClass]="{'is-invalid': loginForm.get('passWord').touched && loginForm.get('passWord').invalid }"
                   >
                   <div *ngIf="loginForm.get('passWord').touched && loginForm.get('passWord').invalid" class="invalid-feedback">

@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  API: 'http://3.128.156.51:3000/',
   NEW_API: 'http://3.128.156.51:3030/',
+  //NEW_API: 'http://localhost:5000/',
+  //NEW_API: 'http://4e8131e560ee.ngrok.io/',
 
   PAGINATION_LIMIT: 9
 };

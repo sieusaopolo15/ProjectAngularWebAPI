@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { RoleDTO } from 'src/models/role';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/services/client/alert/alert.service';
+import { MustMatch } from 'src/app/client/modules/login/MustMatch';
 
 @Component({
   selector: 'app-profile',
@@ -23,16 +24,15 @@ export class ProfileComponent implements OnInit {
     private alertService: AlertService
   ) { }
 
-  passwordForm: FormGroup = this.fb.group({
-    oldPass: new FormControl('', [Validators.required]),
-    newPass: new FormControl('', [Validators.required]),
-    confirmation: new FormControl('', [Validators.required]),
-  })
+  
 
   profileForm: FormGroup;
 
   employee: EmployeeDTO;
   roles: RoleDTO;
+
+
+  passwordForm: FormGroup;
 
   //API URL
   private url: string = environment.NEW_API;
@@ -41,6 +41,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getRoles();
     this.getProfile();
+    this.passwordForm = this.fb.group(
+      {
+        employeeId: new FormControl(this.employee.employeeId),
+        oldPassword: new FormControl('', [Validators.required]),
+        newPassword: new FormControl('', [Validators.required]),
+        confirmPassword: new FormControl('', [Validators.required]),
+      },
+      { validator: MustMatch('newPassword', 'confirmPassword')  }
+    );
     this.profileForm = this.fb.group({
       fullName: new FormControl(this.employee.fullName, [Validators.required]),
       email: new FormControl(this.employee.email, [Validators.required, Validators.minLength(8), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
@@ -65,8 +74,22 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  passwordChangeSubmit(value){
-    console.log(value);
+  passwordChangeSubmit(value) {
+    if (confirm("Bạn chắc chắn có muốn thay đổi")) {
+      this.httpService.post(this.url, "Employees/ChangePassword", value).subscribe(
+        data => {
+          this.alertService.Success("Đã thay đổi mật khẩu thành công !");
+          sessionStorage.removeItem('employee-name');
+          sessionStorage.removeItem('current-employee');
+          sessionStorage.removeItem('admin');
+          sessionStorage.removeItem('employee-refresh-token');
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.headers);
+          this.alertService.Error("Đã xảy ra lỗi trong quá trình đổi mật khẩu");
+        }
+      );
+    }
   }
 
   profileSubmit(value) {

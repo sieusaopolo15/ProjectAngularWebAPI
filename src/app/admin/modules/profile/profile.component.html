@@ -11,21 +11,52 @@
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
                                     <div class="nk-int-st">
-                                        <input formControlName="oldPass" type="password" class="form-control" placeholder="Mật khẩu cũ...">
+                                        <input 
+                                            formControlName="oldPassword"
+                                            type="password" 
+                                            class="form-control" 
+                                            placeholder="Mật khẩu cũ..."
+                                            [ngClass]="{'is-invalid': passwordForm.get('oldPassword').touched && passwordForm.get('oldPassword').invalid }"
+                                        >
+                                        <div *ngIf="passwordForm.get('oldPassword').touched && passwordForm.get('oldPassword').invalid" class="invalid-feedback">
+                                            <div *ngIf="passwordForm.get('oldPassword').errors.required"> Mật khẩu cũ bị bỏ trống</div>
+                                            <div *ngIf="passwordForm.get('oldPassword').errors.minlength"> Tối thiểu 8 kí tự </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
                                     <div class="nk-int-st">
-                                        <input formControlName="newPass" type="password" class="form-control" placeholder="Mật khẩu mới...">
+                                        <input 
+                                            formControlName="newPassword" 
+                                            type="password" 
+                                            class="form-control" 
+                                            placeholder="Mật khẩu mới..."
+                                            [ngClass]="{'is-invalid': passwordForm.get('newPassword').touched && passwordForm.get('newPassword').invalid }"
+                                        >
+                                        <div *ngIf="passwordForm.get('newPassword').touched && passwordForm.get('newPassword').invalid" class="invalid-feedback">
+                                            <div *ngIf="passwordForm.get('newPassword').errors.required"> Mật khẩu mới bị bỏ trống</div>
+                                            <div *ngIf="passwordForm.get('newPassword').errors.minlength"> Tối thiểu 8 kí tự </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
                                     <div class="nk-int-st">
-                                        <input formControlName="confirmation" type="password" class="form-control" placeholder="Xác nhận mật khẩu mới...">
+                                        <input 
+                                            formControlName="confirmPassword" 
+                                            type="password" 
+                                            class="form-control" 
+                                            placeholder="Xác nhận mật khẩu mới..."
+                                            [ngClass]="{'is-invalid': passwordForm.get('confirmPassword').touched && passwordForm.get('confirmPassword').invalid }"
+                                        >
+                                        <div *ngIf="passwordForm.get('confirmPassword').touched && passwordForm.get('confirmPassword').invalid" class="invalid-feedback">
+                                            <div *ngIf="passwordForm.get('confirmPassword').errors.required"> Xác nhận mật khẩu bị bỏ trống</div>
+                                            <div *ngIf="passwordForm.get('confirmPassword').errors.minlength"> Tối thiểu 8 kí tự </div>
+                                            <div *ngIf="passwordForm.get('confirmPassword').errors.mustMatch"> Hai mật khẩu phải giống nhau </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

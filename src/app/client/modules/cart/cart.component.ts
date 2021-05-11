@@ -16,6 +16,8 @@ export class CartComponent implements OnInit {
   url: string = environment.NEW_API;
   total: number = 0;
 
+  cart: Array<Cart> = [];
+
   constructor(private httpService: HttpService) { }
 
   ngOnInit(): void {
@@ -51,33 +53,42 @@ export class CartComponent implements OnInit {
   private getItems() {
     let email = JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('customer-email'), 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
     if (email != "undefined" && email) {
-      let array: Array<Cart> = JSON.parse(sessionStorage.getItem(email.email)); 
-        if (array) {
-          for (let i = 0; i < array.length; i++){
-            this.httpService.getUrl(this.url, "Products/" + array[i].productId).subscribe(data => {
-              this.product.set(data, array[i]);
-              this.total += array[i].total;
-            });
-          }
-        }
+      this.updateCart();
     }
-    console.log(this.product);
   }
 
-  remove(item, amount) {
-    this.total -= amount.total;
-    this.product.delete(item);
-    this.updateCart();
+  remove(id) {
+    if (confirm("Bạn có chắc muốn gỡ sản phẩm này khỏi giỏ hàng của bạn ?")) {
+      let a = this.cart.find(x => x.productId === id);
+      let index = this.cart.indexOf(a);
+      if (index != -1) {
+        this.cart.splice(index, 1);
+        sessionStorage.setItem('cart', JSON.stringify(this.cart));
+        this.updateCart();
+      }
+    }
   }
 
   updateCart() {
-    let jsonObject: Array<Cart> = [];
-    let email = JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('customer-email'), 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
+    this.cart = JSON.parse(sessionStorage.getItem('cart')); 
+    if (this.cart) {
+      for (let i = 0; i < this.cart.length; i++){
+        this.httpService.getUrl(this.url, "Products/" + this.cart[i].productId).subscribe(data => {
+          this.product.set(data, this.cart[i]);
+          this.total += this.cart[i].total;
+        });
+      }
+    }
+  }
 
-    this.product.forEach((value, key) => {
-      jsonObject.push(value);
-    });
-    sessionStorage.setItem(email.email, JSON.stringify(jsonObject));
+  updateCartAmount() {
+    if (this.product.size != 0) {
+      let array = Array<Cart>();
+      this.product.forEach((value: Cart, key: any) => {
+        array.push(value);
+      });
+      sessionStorage.setItem('cart', JSON.stringify(array));
+    }
   }
 
 }

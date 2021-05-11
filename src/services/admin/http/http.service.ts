@@ -15,8 +15,18 @@ export class HttpService {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'X-Custom-Header',
+      'Authorization': `Bearer ${sessionStorage.getItem('employee-token')}`
     })
   };
+
+  formDataOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'multipart/form-data',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    })
+  }
 
   handleError<T>(): any {
     return (error: any): Observable<any> => {
@@ -47,6 +57,11 @@ export class HttpService {
   post(url: string, type: string, data) {
     let str = url + type;
     return this.http.post<any>(str, data, this.httpOptions);
+  }
+
+  formDataPost(url: string, type: string, data) {
+    let str = url + type;
+    return this.http.post(str, data, this.formDataOptions);
   }
 
   put(url: string, type: string, data) {

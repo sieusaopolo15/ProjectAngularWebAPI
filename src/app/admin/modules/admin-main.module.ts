@@ -53,7 +53,7 @@ import { DatepickerModule, WavesModule } from 'ng-uikit-pro-standard';
     NgxChartsModule,
     MdbModule,
     DatepickerModule,
-    WavesModule
+    WavesModule,
   ],
   providers: [ HttpClientModule, AuthGuard, DatePipe ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(value).subscribe(
       (data: EmployeeDTO) => {
         sessionStorage.setItem('employee-refresh-token', data.refreshToken);
+        sessionStorage.setItem('employee-token', data.accessToken);
         sessionStorage.setItem('employee-name', data.fullName);
         const str = JSON.stringify(data);
         sessionStorage.setItem( "current-employee", crypto.AES.encrypt(JSON.stringify(data), 'secretkey').toString() );

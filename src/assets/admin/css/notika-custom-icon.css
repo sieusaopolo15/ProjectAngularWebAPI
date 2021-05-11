@@ -27,6 +27,7 @@
 .notika-menu-befores:before {
   content: "\e93d";
 }
+
 .notika-menu-after:before {
   content: "\e93b";
 }
@@ -35,6 +36,9 @@
 }
 .notika-menu-sidebar:before {
   content: "\e93a";
+}
+.notika-sitemap::before{
+  content: "\e904";
 }
 .notika-skype:before {
   content: "\e939";

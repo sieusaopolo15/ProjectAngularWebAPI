@@ -28,7 +28,6 @@
                                 <h2>Bảng thống kê sản phẩm bắt đầu từ {{ start }} đến {{ end }}</h2>
                             </div>
                             <ngx-charts-bar-vertical
-                                *ngIf="saleData"
                                 [view]="[1000,400]"
                                 [results]="saleData"
                                 [xAxisLabel]="'Loại Sản phẩm'"

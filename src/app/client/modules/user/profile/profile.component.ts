@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from 'src/services/admin/http/http.service';
 import * as CryptoJS from 'crypto-js';
@@ -7,7 +7,7 @@ import { AlertService } from 'src/services/client/alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { CustomerDTO } from 'src/models/user';
 
@@ -22,7 +22,8 @@ export class ProfileComponent implements OnInit {
     private alertService: AlertService,
     private fb: FormBuilder,
     private router: Router,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    @Inject(DOCUMENT) private _document: Document
   ) { }
 
   private url: string = environment.NEW_API;
@@ -60,6 +61,10 @@ export class ProfileComponent implements OnInit {
     
   }
 
+  reloadCurrentPage() {
+    this._document.defaultView.location.reload();
+  }
+
   private getCurrentCustomer() {
     const customer = JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('customer-email'), 'passwordEncrypt').toString(CryptoJS.enc.Utf8));
     if (customer && customer.profileFlag == "true") {
@@ -79,9 +84,7 @@ export class ProfileComponent implements OnInit {
       data => {
         this.alertService.Success("Đã đổi mật khẩu thành công ! Bạn phải đăng nhập lại");
         sessionStorage.clear();
-        this.router.routeReuseStrategy.shouldReuseRoute = function () {
-          return false;
-        };
+        this.reloadCurrentPage();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -105,11 +108,7 @@ export class ProfileComponent implements OnInit {
       data => {
         this.alertService.Success("Thay đổi thông tin đăng nhập thành công ! Đang thay đổi thông tin");
         this.setInformation(customer, form);
-        this.subscription = interval(2000).subscribe((val) => {
-          this.router.routeReuseStrategy.shouldReuseRoute = function () {
-            return false;
-          };
-        })
+        this.reloadCurrentPage();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -128,6 +127,7 @@ export class ProfileComponent implements OnInit {
     customer.birthDay = form.birthDay;
     customer.profileFlag = 'true';
     sessionStorage.setItem('customer-email', CryptoJS.AES.encrypt(JSON.stringify(customer), 'passwordEncrypt').toString());
+    sessionStorage.setItem('customerName', customer.name);
     return customer;
   }
 

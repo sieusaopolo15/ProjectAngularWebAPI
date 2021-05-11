@@ -14,6 +14,12 @@ export class HeaderComponent implements OnInit {
   name: string = "";
   type: string = "all";
 
+  //INITAL VARIABLES
+  display: boolean = false;
+  display2: boolean = false;
+  hamburgerTrigger: boolean = false;
+  //
+
   constructor(
     private router: Router,
     private headerService: HeaderService,
@@ -35,6 +41,17 @@ export class HeaderComponent implements OnInit {
   change(value) {
     this.type = value;
   }
+
+  //CSS STYLE CHANGE SECTION
+  styleChange() {
+    this.hamburgerTrigger = !this.hamburgerTrigger;
+    this.display = !this.display;
+  }
+  showItems() {
+    this.display2 = !this.display2;
+  }
+  //
+  
 
   onSubmit(): void {
     if (this.keyword == '' || !this.keyword) {

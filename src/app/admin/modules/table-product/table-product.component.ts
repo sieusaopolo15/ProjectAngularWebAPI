@@ -23,7 +23,7 @@ export class TableProductComponent implements OnInit {
     private alertSerivce: AlertService
   ) { }
 
-  //INITAL
+  //INITIAL
   productData: Array<Product> = [];
   suppliers: Array<SupplierDTO> = [];
   categories: Array<Category> = [];
@@ -31,6 +31,12 @@ export class TableProductComponent implements OnInit {
   imgSrc: any = "https://drive.google.com/uc?export=view&id=1paIUZyOqIW5ZllHXE0b6r-kZWJHQMQYR";
   display: string = "none";
   display2: string = 'none';
+  
+  //INITIAL
+
+  //TRIGGER INITIAL
+  currentProduct: any;
+  currentImgSrc: any;
   //
 
   //FORMS
@@ -40,6 +46,7 @@ export class TableProductComponent implements OnInit {
     productName: new FormControl('', [Validators.required, Validators.minLength(10)]),
     price: new FormControl('', [Validators.required, Validators.minLength(5)]),
     unit: new FormControl('', [Validators.required]),
+    status: new FormControl(true),
     categoryId: new FormControl('', [Validators.required]),
     descriptions: new FormControl('', [Validators.required]),
     supplier: new FormControl([], [Validators.required]),
@@ -69,8 +76,8 @@ export class TableProductComponent implements OnInit {
       fileReader.readAsDataURL(file);
 
       this.imgSrc = event.target.files[0].name;
-      console.log(this.imgSrc);
-      this.fileName = event.target.files[0].name;
+      this.fileName = event.target.value;
+
     }
   }
 
@@ -104,26 +111,64 @@ export class TableProductComponent implements OnInit {
     this.display = 'block';
   }
   
+  openModal2(product) {
+    this.display2 = 'block';
+    this.currentProduct = product;
+    this.currentImgSrc = "https://drive.google.com/uc?export=view&id=" + product.images;
+
+    this.adjustProductForm = this.fb.group({
+      productId: new FormControl(product.productId),
+      productName: new FormControl(product.productName, [Validators.required, Validators.minLength(10)]),
+      price: new FormControl(product.price, [Validators.required, Validators.minLength(5)]),
+      unit: new FormControl(product.unit, [Validators.required]),
+      status: new FormControl(true),
+      categoryId: new FormControl(product.categoryId, [Validators.required]),
+      descriptions: new FormControl(product.descriptions, [Validators.required, Validators.minLength(10)]),
+      supplier: new FormControl(product.supplies, [Validators.required]),
+    });
+  }
+  
   closeModal() {
     this.display = 'none';
+    this.currentProduct = null;
+  }
+
+  closeModal2() {
+    this.display2 = 'none';
+  }
+
+  setAddValue(value) {
+    this.addProductForm.patchValue({
+      productId: value.productId,
+      productName: value.productName,
+      price: value.price,
+      unit: value.unit,
+      descriptions: value.descriptions,
+      status: true,
+      categoryId: value.categoryId,
+      supplier: value.supplier,
+    });
   }
 
   submit(value) {
     if (confirm("Bạn chắc chắn muốn thêm sản phẩm này ?")) {
-      let product = {
-        productId: value.productId,
-        productName: value.productName,
-        price: value.price,
-        unit: value.unit,
-        images: this.fileName,
-        descriptions: value.descriptions,
-        status: true,
-        categoryId: value.categoryId,
-        supplies: value.supplier
-      };
-      console.log(product);
-      this.httpService.post(this.url, "Products", product).subscribe(
+      const formData = new FormData();
+
+      //this.setAddValue(value);
+
+      formData.append('productId', value.productId);
+      formData.append('productName', value.productName);
+      formData.append('price', value.price);
+      formData.append('unit', value.unit);
+      formData.append('descriptions', value.descriptions);
+      formData.append('status', value.status);
+      formData.append('categoryId', value.categoryId);
+      formData.append('supplies', value.supplier);
+      formData.append('Image', this.fileName);
+
+      this.httpService.formDataPost(this.url, "Products", formData).subscribe(
         data => {
+          console.log(data);
           this.alertSerivce.Success("Đã thêm sản phẩm thành công !");
         },
         (error: HttpErrorResponse) => {
@@ -132,6 +177,10 @@ export class TableProductComponent implements OnInit {
         }
       );
 	  }
+  }
+
+  adjust(value) {
+    
   }
 
 }
