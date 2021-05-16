@@ -16,7 +16,7 @@
                                 </div>
                                 <form [formGroup]="addProductForm">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
                                             <div class="form-group ic-cmp-int">
                                                 <div>
                                                     <img height="237" width="237" src="{{ imgSrc }}"/>
@@ -30,6 +30,7 @@
                                                         accept="image/x-png,image/jpg,image/jpeg,image/svg"
                                                         (change)="onFileSelected($event)"
                                                         [ngClass]="{'is-invalid': addProductForm.get('images').touched && addProductForm.get('images').invalid }"
+                                                        
                                                     >
                                                     
                                                     <div *ngIf="addProductForm.get('images').touched && addProductForm.get('images').invalid" class="invalid-feedback">
@@ -38,12 +39,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <input
@@ -60,10 +61,10 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <input
@@ -80,10 +81,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <input
@@ -107,7 +108,7 @@
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <input
@@ -123,10 +124,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <div class="col-lg-3 col-md-5 col-sm-5 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <select 
@@ -138,7 +139,7 @@
                                                             >
                                                                 <option value="" disabled>Loại sản phẩm</option>
                                                                 <option 
-                                                                    *ngFor="let category of categories" [ngValue]="category.categoryId"
+                                                                    *ngFor="let category of categories" value="{{category.categoryId}}"
                                                                 >
                                                                     {{ category.categoryName }}
                                                                 </option>
@@ -146,10 +147,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <textarea 
@@ -172,20 +173,20 @@
                                                 
                                             </div>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-2 col-sm-2 col-xs-12">
+                                                <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12">
                                                     <div class="form-group ic-cmp-int">
                                                         <div class="form-ic-cmp">
-                                                            <i class="notika-icon notika-support"></i>
+                                                            
                                                         </div>
                                                         <div class="nk-int-st">
                                                             <select 
-                                                                NgHr="supplier"
+                                                                NgHr="supplies"
                                                                 class="form-select form-control" 
-                                                                formControlName="supplier"
+                                                                formControlName="supplies"
                                                                 multiple="true"
                                                             >
                                                                 <option 
-                                                                    *ngFor="let supplier of suppliers" [ngValue]="supplier.supplierId"
+                                                                    *ngFor="let supplier of suppliers" value="{{supplier.supplierId}}"
                                                                     
                                                                 >
                                                                     {{ supplier.supplierName }}
@@ -233,7 +234,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <div class="form-group ic-cmp-int">
                                                 <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
+                                                    
                                                 </div>
                                                 <div class="nk-int-st">
                                                     <input
@@ -253,7 +254,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <div class="form-group ic-cmp-int">
                                                 <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
+                                                    
                                                 </div>
                                                 <div class="nk-int-st">
                                                     <input
@@ -277,7 +278,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <div class="form-group ic-cmp-int">
                                                 <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
+                                                    
                                                 </div>
                                                 <div class="nk-int-st">
                                                     <input
@@ -296,7 +297,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <div class="form-group ic-cmp-int">
                                                 <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
+                                                    
                                                 </div>
                                                 <div class="nk-int-st">
                                                     <select 
@@ -319,7 +320,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <div class="form-group ic-cmp-int">
                                                 <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
+                                                    
                                                 </div>
                                                 <div class="nk-int-st">
                                                     <textarea 
@@ -342,30 +343,6 @@
 
                                         
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-2 col-sm-2 col-xs-12">
-                                            <div class="form-group ic-cmp-int">
-                                                <div class="form-ic-cmp">
-                                                    <i class="notika-icon notika-support"></i>
-                                                </div>
-                                                <div class="nk-int-st">
-                                                    <select 
-                                                        NgHr="supplier"
-                                                        class="form-select form-control" 
-                                                        formControlName="supplier"
-                                                        multiple="true"
-                                                    >
-                                                        <option 
-                                                            *ngFor="let supplier of suppliers" [ngValue]="supplier.supplierId"
-                                                            
-                                                        >
-                                                            {{ supplier.supplierName }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -373,8 +350,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button  type="button" class="btn btn-default" >Thêm</button>
-                <button type="button" class="btn btn-default" (click)="closeModal()">Đóng</button>
+                <button  type="button" class="btn btn-default" >Lưu</button>
+                <button type="button" class="btn btn-default" (click)="closeModal2()">Đóng</button>
             </div>
         </div>
     </div>
@@ -423,9 +400,8 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" /></th>
                                     <th>Mã sản phẩm</th>
-                                    <th>Hình ảnh</th>
+                                    <th style="white-space: nowrap;">Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Nội dung</th>
                                     <th>Giá</th>
@@ -436,9 +412,8 @@
                             </thead>
                             <tbody *ngIf="productData">
                                 <tr *ngFor="let product of productData | paginate: { id: 'listing_pagination', itemsPerPage: itemsPerPage, currentPage: page , totalItems: totalRecords }">
-                                    <td><input type="checkbox" /></td>
                                     <td>{{ product.productId }}</td>
-                                    <td><img height="225" width="225" src="https://drive.google.com/uc?export=view&id={{ product.images }}" /></td>
+                                    <td><img height="250" width="250" src="https://drive.google.com/uc?export=view&id={{ product.images }}" /></td>
                                     <td style="white-space: nowrap;">{{ product.productName }}</td>
                                     <td>{{ product.descriptions }}</td>
                                     <td>{{ product.price }}</td>

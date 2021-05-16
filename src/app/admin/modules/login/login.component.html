@@ -1,6 +1,9 @@
 <div class="login-content">
    <!-- Login -->
    <div class="nk-block toggled" id="l-login">
+      <div>
+         <h3 *ngIf="loginError" style="color: #ff5c5c">Lỗi: {{ loginError }}</h3>
+      </div>
       <form [formGroup]="loginForm">
          <div class="nk-form">
             <div class="input-group">

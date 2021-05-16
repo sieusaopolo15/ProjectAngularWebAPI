@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,7 +22,8 @@ export class TableCustomerComponent implements OnInit {
     private httpService: HttpService,
     private fb: FormBuilder,
     private alertService: AlertService,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    @Inject(DOCUMENT) private _document: Document 
   ) {
 
     // Assign the data to the data source for the table to render
@@ -55,6 +56,10 @@ export class TableCustomerComponent implements OnInit {
     });
   }
 
+  private reloadPage() {
+    this._document.defaultView.location.reload();
+  }
+
   openModal(value) {
     this.display = 'block';
     this.currentCustomer = value;
@@ -81,6 +86,7 @@ export class TableCustomerComponent implements OnInit {
         this.httpService.post(this.url, "Customers/Block", customer.customerId).subscribe(
           data => {
             this.alertService.Success("Chặn khách hàng với mã là" + customer.customerId + " thành công !");
+            this.reloadPage();
           },
           (error: HttpErrorResponse) => {
             console.log(error.message);

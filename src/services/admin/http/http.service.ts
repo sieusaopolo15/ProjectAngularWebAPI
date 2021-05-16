@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import { catchError, timeout } from 'rxjs/operators';
 export class HttpService {
 
   constructor(private http: HttpClient) { }
+  
+  private url: string = environment.NEW_API;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,11 +25,11 @@ export class HttpService {
 
   formDataOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'multipart/form-data',
-      'Accept': 'multipart/form-data',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     })
-  }
+  };
 
   handleError<T>(): any {
     return (error: any): Observable<any> => {
@@ -61,7 +64,7 @@ export class HttpService {
 
   formDataPost(url: string, type: string, data) {
     let str = url + type;
-    return this.http.post(str, data, this.formDataOptions);
+    return this.http.post<any>(str, data);
   }
 
   put(url: string, type: string, data) {

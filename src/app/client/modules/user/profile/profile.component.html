@@ -7,6 +7,9 @@
                     <div class="login-form">
                         <h4 class="login-title">Đổi Mật Khẩu</h4>
                         <div class="row">
+                            <div *ngIf="changePasswordError" class="col-md-12 col-12 mb-20 alert alert-warning">
+                                <h4>Lỗi: {{ changePasswordError }}</h4>
+                             </div>
                             <div class="col-12 mb-20">
                                 <label>Email *</label>
                                 <input 
@@ -109,9 +112,9 @@
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label>Giới tính</label>
-                                <select formControlName="gender" class="form-select form-control">
-                                    <option value="true" [selected]="currentCustomer.gender == true">Nam</option>
-                                    <option value="false" [selected]="currentCustomer.gender != true">Nữ</option>
+                                <select formControlName="gender" [value]="currentCustomer" class="form-select form-control">
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-20">

@@ -56,7 +56,8 @@ import { OrderModule } from "ngx-order-pipe";
     MatTabsModule,
     MatExpansionModule,
     BrowserAnimationsModule,
-    OrderModule
+    OrderModule,
+    
   ],
   providers: [
     HttpClientModule,

@@ -77,9 +77,9 @@ export class LoginComponent implements OnInit {
     
     this.authService.login(value).subscribe(
       (data: any) => {
-        sessionStorage.setItem('customer-token', data.accessToken);
-        sessionStorage.setItem('customer-refresh-token', data.refreshToken);
-        if (data != "Email hoặc mật khẩu không chính xác.") {
+        if (data.accessToken) {
+          sessionStorage.setItem('customer-token', data.accessToken);
+          sessionStorage.setItem('customer-refresh-token', data.refreshToken);
           emailJSON = {
             email: data.email,
             password: data.passWord,
@@ -101,7 +101,6 @@ export class LoginComponent implements OnInit {
         }
         else {
           this.loginError = data;
-          this.alertService.Error(data);
         }
       },
       (error: HttpErrorResponse) => {

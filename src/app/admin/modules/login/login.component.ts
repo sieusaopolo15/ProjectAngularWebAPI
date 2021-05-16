@@ -36,14 +36,20 @@ export class LoginComponent implements OnInit {
 
   submit(value) {
     this.authService.login(value).subscribe(
-      (data: EmployeeDTO) => {
-        sessionStorage.setItem('employee-refresh-token', data.refreshToken);
-        sessionStorage.setItem('employee-token', data.accessToken);
-        sessionStorage.setItem('employee-name', data.fullName);
-        const str = JSON.stringify(data);
-        sessionStorage.setItem( "current-employee", crypto.AES.encrypt(JSON.stringify(data), 'secretkey').toString() );
-        this.headerService.userProfileSubject.next(data.fullName);
-        this.router.navigate(['admin']);
+      (data: any) => {
+        if (data.accessToken) {
+          sessionStorage.setItem('employee-refresh-token', data.refreshToken);
+          sessionStorage.setItem('employee-token', data.accessToken);
+          sessionStorage.setItem('employee-name', data.fullName);
+          const str = JSON.stringify(data);
+          sessionStorage.setItem( "current-employee", crypto.AES.encrypt(JSON.stringify(data), 'secretkey').toString() );
+          this.headerService.userProfileSubject.next(data.fullName);
+          this.router.navigate(['admin']);
+        }
+        else {
+          this.loginError = data;
+        }
+        
       },
       (error: HttpErrorResponse) => {
         this.loginError = error.message;

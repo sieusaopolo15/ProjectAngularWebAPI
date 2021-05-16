@@ -27,7 +27,9 @@ export class TableProductComponent implements OnInit {
   productData: Array<Product> = [];
   suppliers: Array<SupplierDTO> = [];
   categories: Array<Category> = [];
-  fileName: string = "";
+  private base64textString: string = "";
+  fileUrl: File = null;
+  fileName: any;
   imgSrc: any = "https://drive.google.com/uc?export=view&id=1paIUZyOqIW5ZllHXE0b6r-kZWJHQMQYR";
   display: string = "none";
   display2: string = 'none';
@@ -42,14 +44,14 @@ export class TableProductComponent implements OnInit {
   //FORMS
   addProductForm: FormGroup = this.fb.group({
     productId: new FormControl('', [Validators.required]),
-    images: new FormControl(this.fileName, [Validators.required]),
     productName: new FormControl('', [Validators.required, Validators.minLength(10)]),
     price: new FormControl('', [Validators.required, Validators.minLength(5)]),
     unit: new FormControl('', [Validators.required]),
+    images: new FormControl('', [Validators.required]),
+    descriptions: new FormControl('', [Validators.required]),
     status: new FormControl(true),
     categoryId: new FormControl('', [Validators.required]),
-    descriptions: new FormControl('', [Validators.required]),
-    supplier: new FormControl([], [Validators.required]),
+    supplies: new FormControl([], [Validators.required]),
   });
 
   adjustProductForm: FormGroup;
@@ -67,17 +69,27 @@ export class TableProductComponent implements OnInit {
     this.getCategories();
   }
 
+  _handleReaderLoaded(readerEvt) {
+    let binaryString = readerEvt.target.result;
+    this.base64textString = btoa(binaryString);
+    console.log(this.base64textString);
+  }
+
   onFileSelected(event) {
     if(event.target.files.length > 0) 
     {
       const file = event.target.files[0];
+      
       const fileReader = new FileReader();
-      fileReader.onload = e => this.imgSrc = fileReader.result;
+        const decoy = new FileReader();
+      
       fileReader.readAsDataURL(file);
-
-      this.imgSrc = event.target.files[0].name;
-      this.fileName = event.target.value;
-
+      fileReader.onload = (e) => {
+        this.imgSrc = fileReader.result;
+      };
+      decoy.readAsBinaryString(file);
+      decoy.onload = this._handleReaderLoaded.bind(this);
+      this.fileName = event.target.files[0].name;
     }
   }
 
@@ -124,7 +136,6 @@ export class TableProductComponent implements OnInit {
       status: new FormControl(true),
       categoryId: new FormControl(product.categoryId, [Validators.required]),
       descriptions: new FormControl(product.descriptions, [Validators.required, Validators.minLength(10)]),
-      supplier: new FormControl(product.supplies, [Validators.required]),
     });
   }
   
@@ -137,42 +148,37 @@ export class TableProductComponent implements OnInit {
     this.display2 = 'none';
   }
 
-  setAddValue(value) {
-    this.addProductForm.patchValue({
-      productId: value.productId,
-      productName: value.productName,
-      price: value.price,
-      unit: value.unit,
-      descriptions: value.descriptions,
-      status: true,
-      categoryId: value.categoryId,
-      supplier: value.supplier,
-    });
-  }
-
   submit(value) {
     if (confirm("Bạn chắc chắn muốn thêm sản phẩm này ?")) {
-      const formData = new FormData();
+      // let formData = new FormData();
+      // formData.append('productId', value.productId);
+      // formData.append('productName', value.productName);
+      // formData.append('price', value.price);
+      // formData.append('unit', value.unit);
+      // formData.append('images', null);
+      // formData.append('descriptions', value.descriptions);
+      // formData.append('status', value.status);
+      // formData.append('categoryId', value.categoryId);
+      // for (let i = 0; i < value.supplier.length; i++){
+      //   formData.append('supplies', value.supplier[i]);
+      // }
+      // formData.append('Image', this.fileUrl , this.fileName);
+      // formData.forEach((value, key) => {
+      //   console.log(key + ": " + value);
+      // });
 
-      //this.setAddValue(value);
+      value.images = this.base64textString;
 
-      formData.append('productId', value.productId);
-      formData.append('productName', value.productName);
-      formData.append('price', value.price);
-      formData.append('unit', value.unit);
-      formData.append('descriptions', value.descriptions);
-      formData.append('status', value.status);
-      formData.append('categoryId', value.categoryId);
-      formData.append('supplies', value.supplier);
-      formData.append('Image', this.fileName);
-
-      this.httpService.formDataPost(this.url, "Products", formData).subscribe(
+      this.httpService.post(this.url, "Products", value).subscribe(
         data => {
           console.log(data);
           this.alertSerivce.Success("Đã thêm sản phẩm thành công !");
         },
         (error: HttpErrorResponse) => {
-          console.log(error.message);
+          //console.log(error.message);
+          console.log(error.headers);
+          console.log(error.status);
+          console.log(error.statusText);
           this.alertSerivce.Error("Đã xảy ra lỗi trong quá trình thêm sản phẩm !");
         }
       );
@@ -180,7 +186,9 @@ export class TableProductComponent implements OnInit {
   }
 
   adjust(value) {
-    
+    if (confirm("Bạn có muốn thay đổi thông tin sản phẩm với những thông tin này ?")) {
+      let formData = new FormData();
+    }
   }
 
 }

@@ -52,6 +52,22 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
+  //STRIPE
+  private invokeStripe():void {
+    if (!window.document.getElementById('stripe-script')) {
+      const script = window.document.createElement('script');
+      script.id = 'stripe-script';
+      script.type = "text/javascript";
+      script.src = "";
+      window.document.body.appendChild(script);
+    }
+  }
+
+  makePayment(amount: any) {
+    
+  }
+  //
+
   checkout() {
     this.trigger = true;
     for (let i = 0; i < this.cart.length; i++){

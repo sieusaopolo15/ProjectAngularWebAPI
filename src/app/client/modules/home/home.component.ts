@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit {
       this.httpService.getUrl(this.url, "Products").subscribe(data => {
         this.products = data;
         this.totalRecords = data.length;
-        console.log(this.products);
       });
       
     }

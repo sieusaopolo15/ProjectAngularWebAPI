@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
 
   changeInformationForm: FormGroup;
 
-  private subscription: Subscription;
+  changePasswordError: string = "";
 
   ngOnInit(): void {
     this.getCurrentCustomer();
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
   }
 
   changePasswordSubmit(form) {
-    const value = {
+    let value = {
       customerId: this.currentCustomer.id,
       oldPassword: form.oldPassword,
       newPassword: form.newPassword,
@@ -82,9 +82,16 @@ export class ProfileComponent implements OnInit {
 
     this.httpService.post(this.url, "Customers/ChangePassword", value).subscribe(
       data => {
-        this.alertService.Success("Đã đổi mật khẩu thành công ! Bạn phải đăng nhập lại");
-        sessionStorage.clear();
-        this.reloadCurrentPage();
+        if (!data.error_message) {
+          console.log(data);
+          this.alertService.Success("Đã đổi mật khẩu thành công ! Bạn phải đăng nhập lại");
+          sessionStorage.clear();
+          //this.reloadCurrentPage();
+        }
+        else {
+          this.changePasswordError = data.error_message;
+        }
+        
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -124,6 +131,7 @@ export class ProfileComponent implements OnInit {
     customer.address = form.address;
     customer.phone = form.phoneNumber;
     customer.gender = form.gender;
+    console.log(form.gender);
     customer.birthDay = form.birthDay;
     customer.profileFlag = 'true';
     sessionStorage.setItem('customer-email', CryptoJS.AES.encrypt(JSON.stringify(customer), 'passwordEncrypt').toString());

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HeaderService } from 'src/services/admin/header/header.service';
 import * as CryptoJS from 'crypto-js';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private headerService: HeaderService) { }
+  constructor(private headerService: HeaderService, @Inject(DOCUMENT) private _document: Document) { }
 
   currentTab: string;
   fullname: string = "";
@@ -38,6 +39,11 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  private reloadPage() {
+    this._document.defaultView.location.reload();
+  }
+
+
   changeTab(value: string) {
     this.currentTab = value;
   }
@@ -56,6 +62,7 @@ export class HeaderComponent implements OnInit {
     sessionStorage.removeItem('current-employee');
     sessionStorage.removeItem('employee-refresh-token');
     sessionStorage.removeItem('employee-name');
+    this.reloadPage();
   }
 
 }
