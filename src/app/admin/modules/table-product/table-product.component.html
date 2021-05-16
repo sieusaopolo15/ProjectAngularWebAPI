@@ -214,7 +214,7 @@
 <!-- ADD PRODUCT -->
 
 <!-- ADJUST PRODUCT -->
-<div class="modal animated fadeInDown" tabindex="-1" role="dialog" *ngIf="currentProduct" [ngStyle]="{'display':display2}">
+<!-- <div class="modal animated fadeInDown" tabindex="-1" role="dialog" *ngIf="currentProduct" [ngStyle]="{'display':display2}">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -355,7 +355,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- ADJUST PRODUCT -->
 
 <!-- Breadcomb area Start-->
@@ -420,7 +420,7 @@
                                     <td>{{ product.unit }}</td>
                                     <td>{{ product.wareHouses[product.wareHouses.length - 1].quantity }}</td>
                                     <td>{{ product.status == true ? 'Còn bán' : 'Hết bán' }}</td>
-                                    <td><button (click)="openModal2(product)" class="btn btn-primary">Sửa sản phẩm</button></td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
