@@ -182,7 +182,7 @@
                                                         [ngClass]="{'is-invalid': addEmployeeForm.get('password').touched && addEmployeeForm.get('password').invalid }"
                                                     >
                                                     <div *ngIf="addEmployeeForm.get('password').touched && addEmployeeForm.get('password').invalid" class="invalid-feedback">
-                                                        <div *ngIf="addEmployeeForm.get('password').errors.required"> Địa chỉ liên hệ bị bỏ trống </div>
+                                                        <div *ngIf="addEmployeeForm.get('password').errors.required"> Mật khảu bị bỏ trống </div>
                                                         <div *ngIf="addEmployeeForm.get('password').errors.minlength"> Tối thiểu 8 kí tự </div>
                                                     </div>
                                                 </div>
@@ -202,8 +202,9 @@
                                                         [ngClass]="{'is-invalid': addEmployeeForm.get('confirmation').touched && addEmployeeForm.get('confirmation').invalid }"
                                                     >
                                                     <div *ngIf="addEmployeeForm.get('confirmation').touched && addEmployeeForm.get('confirmation').invalid" class="invalid-feedback">
-                                                        <div *ngIf="addEmployeeForm.get('confirmation').errors.required"> Địa chỉ liên hệ bị bỏ trống </div>
+                                                        <div *ngIf="addEmployeeForm.get('confirmation').errors.required"> Xác nhận mật khẩu bị bỏ trống </div>
                                                         <div *ngIf="addEmployeeForm.get('confirmation').errors.minlength"> Tối thiểu 8 kí tự </div>
+                                                        <div *ngIf="addEmployeeForm.get('confirmation').errors.mustMatch"> Hai mật khẩu phải giống nhau </div>
                                                     </div>
                                                 </div>
                                             </div>
